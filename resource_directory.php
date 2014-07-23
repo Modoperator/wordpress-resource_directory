@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) OR exit;
  * Description: Sets up a simple category based resource directory on MultiSite that clients can maintain and display on a Page.
  * Version: 1.1
  * Author: M Akers
- * Author URI: http://www.steelbrain.com.com
+ * Author URI: http://www.steelbrain.com
   */
 
 // * @property wpdb $wpdb

@@ -8,8 +8,8 @@ if ( !is_multisite() )
 {
 	global $wpdb;
 
-	$cat_table_name = $wpdb->prefix . "ia_rd_categories";
-	$item_table_name = $wpdb->prefix . "ia_rd_items";
+	$cat_table_name = $wpdb->prefix . "sb_rd_categories";
+	$item_table_name = $wpdb->prefix . "sb_rd_items";
 
 	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
@@ -18,7 +18,7 @@ if ( !is_multisite() )
 	$sql = 'DROP TABLE IF EXISTS ' . $cat_table_name;
 	$wpdb->query( $sql );
 
-	delete_option('ia_rd_db_version');
+	delete_option('sb_rd_db_version');
 }
 // For Multisite
 else
@@ -34,15 +34,15 @@ else
     {
         switch_to_blog( $blog_id );
 
-		$cat_table_name = $wpdb->prefix . "ia_rd_categories";
-		$item_table_name = $wpdb->prefix . "ia_rd_items";
+		$cat_table_name = $wpdb->prefix . "sb_rd_categories";
+		$item_table_name = $wpdb->prefix . "sb_rd_items";
 
 		$sql = 'DROP TABLE IF EXISTS ' . $item_table_name;
 		$wpdb->query( $sql );
 		$sql = 'DROP TABLE IF EXISTS ' . $cat_table_name;
 		$wpdb->query( $sql );
 		
-        delete_option('ia_rd_db_version');
+        delete_option('sb_rd_db_version');
     }
 
     switch_to_blog( $original_blog_id );

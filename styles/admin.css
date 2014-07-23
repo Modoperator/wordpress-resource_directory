@@ -1,11 +1,11 @@
-table.iard_table {
+table.sbrd_table {
     width:90%;
     border:1px solid #d9d9d9;
     border-collapse: collapse;
     background:#fff
 }
 
-table.iard_table th {
+table.sbrd_table th {
     background-color: #e8e8e8;
     border-bottom: 1px solid #C0C0C0;
     text-align: left;
@@ -13,29 +13,29 @@ table.iard_table th {
     margin:0
 }
 
-table.iard_table tr:nth-child(odd) {
+table.sbrd_table tr:nth-child(odd) {
     background: #f1f1f1
 }
 
-table.iard_table td {
+table.sbrd_table td {
     padding:0 4px;
     margin:0;
     line-height:30px;
 }
 
-table.iard_categories td:first-child{
+table.sbrd_categories td:first-child{
     width:60%
 }
-table.iard_resources td{
+table.sbrd_resources td{
     width:30%;
 }
-table.iard_table td:last-child {
+table.sbrd_table td:last-child {
     text-align:center;
     width:100px;
 }
 
 
-.iard_wrap label {
+.sbrd_wrap label {
     background: none repeat scroll 0 0 #E8E8E8;
     border: 1px solid #DDDDDD;
     display: inline-block;
@@ -48,7 +48,7 @@ table.iard_table td:last-child {
     vertical-align:bottom;
 }
 
-.iard_wrap div.updated {
+.sbrd_wrap div.updated {
        margin: 5px 10px 10px 0;
 }
 

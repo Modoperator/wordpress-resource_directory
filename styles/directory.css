@@ -1,0 +1,55 @@
+
+/*resource categories */
+
+#iard_wrapper ul.iard_categories {
+    float:left;
+    padding:0 ;
+    margin:0;
+    width:50%;
+    list-style: none
+}
+
+#iard_wrapper ul.iard_categories li {
+    background:#C2D4E0;
+    padding:5px;
+    margin:6px
+}
+
+li.ia_rd_category_hilite
+{
+    background:#C2D4E0;
+    width:635px     /*set this in pixels to span total width of area if you want to override width:50% in UL rule*/
+}
+
+li.ia_rd_category_hilite a {
+    font-weight:bold
+}
+
+/*resource items */
+#iard_wrapper ul.iard_items_list{
+    list-style: none;
+    padding:0;
+    margin-left:0 
+}
+
+ul.iard_items_list li{
+    line-height:1.2em;
+    margin-bottom:10px;
+    padding-bottom: 4px;
+    border-bottom:1px solid #d9d9d9;
+}
+
+ul.iard_items_list a{
+   font-size:.80em;
+   color: #1c3765;   
+}
+
+.iard_ritem_name {
+    font-weight:bold;
+    color:#377365;
+}
+
+.iard_search_link{
+    margin-bottom:20px
+}
+

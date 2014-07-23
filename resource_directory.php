@@ -1,19 +1,18 @@
 <?php
 defined( 'ABSPATH' ) OR exit;
 /**
- * Plugin Name: Illuminage Resource Directory 
- * Plugin URI: http://www.illuminage.com
- * Description: Sets up a simple category based resource directory that clients can maintain and display on a Page.
+ * Plugin Name: Resource Directory 
+ * Description: Sets up a simple category based resource directory on MultiSite that clients can maintain and display on a Page.
  * Version: 1.1
- * Author: MaKERS
- * Author URI: http://www.illuminage.com
+ * Author: M Akers
+ * Author URI: http://www.steelbrain.com.com
   */
 
 // * @property wpdb $wpdb
 
-if (!class_exists('IA_Resource_Directory'))
+if (!class_exists('SB_Resource_Directory'))
 {
-	class IA_Resource_Directory
+	class SB_Resource_Directory
 	{
 		private
 				$wpdb,
@@ -25,8 +24,8 @@ if (!class_exists('IA_Resource_Directory'))
 		{
 			global $wpdb;
 			$this->wpdb = &$wpdb;
-			$this->cat_table_name = $this->wpdb->prefix . 'ia_rd_categories';
-			$this->item_table_name = $this->wpdb->prefix . 'ia_rd_items';
+			$this->cat_table_name = $this->wpdb->prefix . 'sb_rd_categories';
+			$this->item_table_name = $this->wpdb->prefix . 'sb_rd_items';
 			
 			if (is_admin())
 			{
@@ -40,29 +39,29 @@ if (!class_exists('IA_Resource_Directory'))
 				add_action('wp_enqueue_scripts', array(&$this, 'front_enqueue'));
 			}
 
-			add_shortcode('IA_Resource_Directory', array(&$this, 'the_directory'));
+			add_shortcode('SB_Resource_Directory', array(&$this, 'the_directory'));
 
 			// ajax edit actions
-			add_action('wp_ajax_ia-rd-update-category',array($this,'admin_update_category'));
-			add_action('wp_ajax_ia-rd-update-item',array($this,'admin_update_item'));
+			add_action('wp_ajax_sb-rd-update-category',array($this,'admin_update_category'));
+			add_action('wp_ajax_sb-rd-update-item',array($this,'admin_update_item'));
 
 		}
 
 		//***********************************************
 		// add scripts and styles
 		function admin_enqueue(){
-			wp_register_style( 'ia-rd-admin-style', plugins_url('/styles/admin.css', __FILE__),'','','screen' );
-			wp_enqueue_style( 'ia-rd-admin-style' );
+			wp_register_style( 'sb-rd-admin-style', plugins_url('/styles/admin.css', __FILE__),'','','screen' );
+			wp_enqueue_style( 'sb-rd-admin-style' );
 
-			wp_register_script( 'ia_rd_editable', plugins_url('/js/jeditable.min.js', __FILE__) );
-			wp_enqueue_script('ia_rd_editable');
-			//wp_register_script( 'ia_rd_validate', plugins_url('/js/jquery.validate.min.js', __FILE__) );
-			//wp_enqueue_script('ia_rd_validate');
+			wp_register_script( 'sb_rd_editable', plugins_url('/js/jeditable.min.js', __FILE__) );
+			wp_enqueue_script('sb_rd_editable');
+			//wp_register_script( 'sb_rd_validate', plugins_url('/js/jquery.validate.min.js', __FILE__) );
+			//wp_enqueue_script('sb_rd_validate');
 		}
 
 		function front_enqueue() {
-			wp_register_style( 'ia-rd-style', plugins_url('/styles/directory.css', __FILE__),'','','screen' );
-			wp_enqueue_style( 'ia-rd-style' );
+			wp_register_style( 'sb-rd-style', plugins_url('/styles/directory.css', __FILE__),'','','screen' );
+			wp_enqueue_style( 'sb-rd-style' );
 		}
 
 		//***********************************************
@@ -124,21 +123,21 @@ if (!class_exists('IA_Resource_Directory'))
 				$col_break_pos = intval($cat_count / $cat_cols) + 1;
 			}			
 
-			$output = '<div id="iard_wrapper">';
-			$output .= '<ul class="iard_categories">';
+			$output = '<div id="sbrd_wrapper">';
+			$output .= '<ul class="sbrd_categories">';
 	
 			$row_count = 1;
 			foreach ($catrows as $row)
 			{
 				if ($row_count==1 && $hilite_first_cat == 'yes')  //emulate hilite
 				{
-					$output .= '<li class="ia_rd_category_hilite"><a href="?rc=' . $row->cat_id . '">'. $row->cat_name . '</a></li></ul><br style="clear:left" /><ul class="iard_categories">';
+					$output .= '<li class="sb_rd_category_hilite"><a href="?rc=' . $row->cat_id . '">'. $row->cat_name . '</a></li></ul><br style="clear:left" /><ul class="sbrd_categories">';
 				}
 				else
 				{
 					if (isset($col_break_pos) && $row_count % $col_break_pos == 0)
 					{
-						$output .= '</ul><ul class="iard_categories">';
+						$output .= '</ul><ul class="sbrd_categories">';
 						$output .= '<li><a href="?rc=' . $row->cat_id . '">'. $row->cat_name . '</a></li>';
 					}
 					else
@@ -162,9 +161,9 @@ if (!class_exists('IA_Resource_Directory'))
 			$sql = 'SELECT * FROM ' . $this->item_table_name . ' WHERE item_cat=' . $catid;
 			$results = $this->wpdb->get_results($sql);
 
-			$output = '<div id="iard_wrapper"><h2>' . $cat_name . '</h2>';
+			$output = '<div id="sbrd_wrapper"><h2>' . $cat_name . '</h2>';
 
-			$output .= '<div class="iard_search_link"><a href="' . get_permalink() . '">Search again</a></div>';
+			$output .= '<div class="sbrd_search_link"><a href="' . get_permalink() . '">Search again</a></div>';
 
 			if ($this->wpdb->num_rows == 0)
 			{
@@ -172,10 +171,10 @@ if (!class_exists('IA_Resource_Directory'))
 			}
 			else
 			{
-				$output .= '<ul class="iard_items_list">';
+				$output .= '<ul class="sbrd_items_list">';
 				foreach($results as $row)
 				{
-					$output .= '<li><div class="iard_ritem_name">' . $row->item_name . '</div>
+					$output .= '<li><div class="sbrd_ritem_name">' . $row->item_name . '</div>
 						<a href="' . $row->item_url . '" target="_blank">' . $row->item_url . '</a></li>';
 				}
 				$output .= '</ul></div>';
@@ -188,9 +187,9 @@ if (!class_exists('IA_Resource_Directory'))
 	   // Admin Menu
 	   public function add_menu()
 	   {		   
-		   add_menu_page( 'IA Resource Directory', 'Resource Dir.', 'manage_options', 'ia-resource-directory-categories', array(&$this, 'plugin_settings_categories'),'dashicons-portfolio','55');
-		   add_submenu_page( 'ia-resource-directory-categories', 'Resource Directory Categories', 'Resource Categories', 'manage_options', 'ia-resource-directory-categories', array(&$this, 'plugin_settings_categories'));
-		   add_submenu_page( 'ia-resource-directory-categories', 'Resource Directory Items', 'Resource Items', 'manage_options', 'ia-resource-directory-items', array(&$this, 'plugin_settings_items'));
+		   add_menu_page( 'Resource Directory', 'Resource Dir.', 'manage_options', 'sb-resource-directory-categories', array(&$this, 'plugin_settings_categories'),'dashicons-portfolio','55');
+		   add_submenu_page( 'sb-resource-directory-categories', 'Resource Directory Categories', 'Resource Categories', 'manage_options', 'sb-resource-directory-categories', array(&$this, 'plugin_settings_categories'));
+		   add_submenu_page( 'sb-resource-directory-categories', 'Resource Directory Items', 'Resource Items', 'manage_options', 'sb-resource-directory-items', array(&$this, 'plugin_settings_items'));
 	   } 
 	   /**
 		* Admin Menu Callbacks
@@ -357,7 +356,7 @@ if (!class_exists('IA_Resource_Directory'))
 
 			$where = array('cat_id'=>$id);
 			$this->wpdb->delete($this->cat_table_name, $where);
-			//wp_redirect(admin_url('admin.php?page=ia-resource-directory-categories&action=deleted'));
+			//wp_redirect(admin_url('admin.php?page=sb-resource-directory-categories&action=deleted'));
 		}
 
 		function admin_get_all_items($cat = null)
@@ -488,8 +487,8 @@ if (!class_exists('IA_Resource_Directory'))
 
 			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
-			$cat_table_name = $wpdb->prefix . "ia_rd_categories";
-			$item_table_name = $wpdb->prefix . "ia_rd_items";
+			$cat_table_name = $wpdb->prefix . "sb_rd_categories";
+			$item_table_name = $wpdb->prefix . "sb_rd_items";
 
 			$sql = "CREATE TABLE IF NOT EXISTS $cat_table_name (
 				cat_id smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -513,17 +512,17 @@ if (!class_exists('IA_Resource_Directory'))
 
 			dbDelta( $sql );
 
-			add_option( "ia_rd_db_version", '1.0' );
+			add_option( "sb_rd_db_version", '1.0' );
 		}
 	 }
  }
 
 
-if (class_exists('IA_Resource_Directory'))
+if (class_exists('SB_Resource_Directory'))
 {
-	new IA_Resource_Directory();
+	new SB_Resource_Directory();
 
-	register_activation_hook( __FILE__, array('IA_Resource_Directory','install'));
+	register_activation_hook( __FILE__, array('SB_Resource_Directory','install'));
 
 	//unistall moved to filed uninstall.php
 }
